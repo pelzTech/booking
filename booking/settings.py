@@ -8,12 +8,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-a#lud!ujat668ov+o6bvwwjih4jr&s9o(wa4%jk6!z&7@)%+5j'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-a#lud!ujat668ov+o6bvwwjih4jr&s9o(wa4%jk6!z&7@)%+5j')  # Use environment variable for security
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = False  # Make sure to set this to False in production
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['booking-3-sqen.onrender.com', 'localhost', '127.0.0.1']  # Include the Render domain and localhost
 
 # Application definition
 INSTALLED_APPS = [
@@ -58,18 +58,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'booking.wsgi.application'
 
 # Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
+# If using PostgreSQL in production, configure it here. For now, we keep SQLite for development
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  
-        'NAME': BASE_DIR / 'db.sqlite3', 
+        'ENGINE': 'django.db.backends.sqlite3',  # Switch to PostgreSQL in production
+        'NAME': BASE_DIR / 'db.sqlite3',  # SQLite file for development
     }
 }
 
 # Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -86,41 +83,35 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
-
-
+# Static files (CSS, JavaScript, images)
 STATIC_URL = '/static/'
 
-
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  
+    os.path.join(BASE_DIR, 'static'),  # Directory where static files are located
 ]
 
-# Path to collect all static files in production (for 'collectstatic' command)
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Where static files will be collected for production
 
-
+# Media files (user-uploaded content)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Media directory for uploaded files
+
+# Security settings (Optional for production)
+SECURE_SSL_REDIRECT = True  # Redirect HTTP to HTTPS
+CSRF_COOKIE_SECURE = True   # Ensure CSRF cookies are only sent over HTTPS
+SESSION_COOKIE_SECURE = True  # Ensure session cookies are only sent over HTTPS
+X_FRAME_OPTIONS = 'DENY'  # Prevent embedding of your site in frames
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+# Login settings
 LOGIN_REDIRECT_URL = '/'  
 LOGOUT_REDIRECT_URL = '/'  
-
-
-LOGIN_URL = 'login'  
-LOGOUT_REDIRECT_URL = '/login/'  
+LOGIN_URL = 'login'
+LOGOUT_REDIRECT_URL = '/login/'  # Correct logout URL
