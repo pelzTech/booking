@@ -11,9 +11,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-a#lud!ujat668ov+o6bvwwjih4jr&s9o(wa4%jk6!z&7@)%+5j')  # Use environment variable for security
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False  # Make sure to set this to False in production
+DEBUG = False  # Set to True for local development
 
-ALLOWED_HOSTS = ['booking-3-sqen.onrender.com', 'localhost', '127.0.0.1']  # Include the Render domain and localhost
+ALLOWED_HOSTS = ['pelzcode.pythonanywhere.com']  # Make sure these are correct for local dev
 
 # Application definition
 INSTALLED_APPS = [
@@ -58,10 +58,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'booking.wsgi.application'
 
 # Database
-# If using PostgreSQL in production, configure it here. For now, we keep SQLite for development
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Switch to PostgreSQL in production
+        'ENGINE': 'django.db.backends.sqlite3',  # SQLite for local dev
         'NAME': BASE_DIR / 'db.sqlite3',  # SQLite file for development
     }
 }
@@ -102,9 +101,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Media directory for uploaded files
 
 # Security settings (Optional for production)
-SECURE_SSL_REDIRECT = True  # Redirect HTTP to HTTPS
-CSRF_COOKIE_SECURE = True   # Ensure CSRF cookies are only sent over HTTPS
-SESSION_COOKIE_SECURE = True  # Ensure session cookies are only sent over HTTPS
+SECURE_SSL_REDIRECT = False  # Disable HTTPS redirection for local dev
+CSRF_COOKIE_SECURE = False  # Disable for local dev
+SESSION_COOKIE_SECURE = False  # Disable for local dev
 X_FRAME_OPTIONS = 'DENY'  # Prevent embedding of your site in frames
 
 # Default primary key field type
